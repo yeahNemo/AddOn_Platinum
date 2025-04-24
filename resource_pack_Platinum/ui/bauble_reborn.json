@@ -438,10 +438,10 @@
             -22
         ],
         "texture": "textures/ui/purpleBorder",
-        "alpha": "@hud.anim_item_name_text_alpha_out",
+        "alpha": "@hud.anim_item_name_text_alpha_in",
         "anchor_from": "bottom_middle",
         "anchor_to": "bottom_middle",
-        "$wait_duration|default": 0,
+        "$wait_duration|default": 2,
         "$destroy_id|default": "popup_tip_text",
         "controls": [
             {
@@ -451,7 +451,7 @@
                     "color": "$tool_tip_text",
                     "text": "#text",
                     "shadow": true,
-                    "alpha": "@hud.anim_item_name_text_alpha_out",
+                    "alpha": "@hud.anim_item_name_text_alpha_in",
                     "bindings": [
                         {
                             "binding_name": "#bauble_reborn.tip_text",

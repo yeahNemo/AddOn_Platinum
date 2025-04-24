@@ -1,9 +1,8 @@
 # coding=utf-8
 if 1 > 2:
-    from ..QuModLibs.QuClientApi.ui.screenNode import ScreenNode
+    from ..QuModLibs.QuClientApi.ui.screenNode import ScreenNode, BaseUIControl
 from .. import developLogging as logging
 
-from ..QuModLibs.QuClientApi.ui.controls.baseUIControl import BaseUIControl
 from ..QuModLibs.Client import *
 from ..QuModLibs.Modules.Services.Client import BaseService, QRequests
 
@@ -345,7 +344,7 @@ class InventoryClassicProxy(CustomUIScreenProxy):
             baubleInfo = BaubleDataController.getBaubleInfo(baubleIdentifier)
             if baubleInfo:
                 return False
-            return True
+        return True
 
     # 饰品栏选择框
     @Binding.binding_collection(Binding.BF_BindBool, "platinum_bauble_collection", "#bauble_reborn.is_selected")
@@ -579,6 +578,7 @@ class InventoryPocketProxy(InventoryClassicProxy):
         self.armorBasePath = self.basePath + "/base_panel/hotbar_and_panels/gamepad_helper_border/both_panels/right_panel/armor_tab_content/content/label_and_renderer"
         self.armorRenderPath = self.armorBasePath + "/label_panel"
         self.armorRenderPath2 = self.armorBasePath + "/renderer_panel"
+        self.pocketGridPath = self.armorBasePath + "/bauble_pocket_panel"
 
     def OnDestroy(self):
         super(InventoryPocketProxy, self).OnDestroy()
@@ -602,6 +602,13 @@ class InventoryPocketProxy(InventoryClassicProxy):
         if not self.isLockControl:
             self.isLockControl = True
             super(InventoryPocketProxy, self).onBaubleButtonClick(args)
+
+            # 检测饰品栏高度
+            grid = self.screen.GetBaseUIControl(self.pocketGridPath)
+            if grid and self.isShowBaublePanel:
+                gridHeight = grid.GetSize()[1]
+                if gridHeight < 100.0:
+                    self.setToolTips("§g检测到您的饰品栏高度过小\n§c请到设置-视频-GUI标度修正\n§g将其调小，以方便正常使用§r")
 
     @Binding.binding(Binding.BF_BindBool, "#bauble_reborn.pocket_grid.visible")
     def bindingPocketGridVisible(self):
